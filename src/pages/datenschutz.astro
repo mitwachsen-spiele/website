@@ -83,12 +83,13 @@ import PlainPage from '../layouts/PlainPage.astro';
     Das Spiel Kistenschieber (kistenschieber.mitwachsen-spiele.de) merkt sich im lokalen Speicher deines Browsers
     (localStorage, Schlüssel beginnen mit <code>kistenschieber.</code>), was zum Weiterspielen nötig ist: die
     Einstellungen der Ansicht (<code>drehung</code>, <code>neigung</code>), auf welcher Seite das Steuerkreuz liegt (
-    <code>hand</code>) und ob der Ton an oder aus ist (<code>ton</code>), je Level den besten Lauf mit Zahl der Züge und
-    Schübe (<code>best.e1</code>, <code>best.e2</code>
-    …), ob ein Level übersprungen (<code>skip.e1</code> …) oder seine Lösung vorgespielt wurde (<code>shown.e1</code>
-    …) und welches Level zuletzt gespielt wurde (<code>last</code>). Nur für die Dauer der Sitzung (sessionStorage)
-    merkt es sich, wann es zuletzt für eine neue Version neu geladen hat (<code>kistenschieber.updated</code>), damit es
-    nicht immer wieder neu lädt. Cookies setzt das Spiel nicht.
+    <code>hand</code>) und ob der Ton an oder aus ist (<code>ton</code>), je Lektion der Einführung und je Level den
+    besten Lauf mit Zahl der Züge und Schübe (<code>best.e1</code> … für Lektionen, <code>best.l1</code> … für Level),
+    ob eine Lektion oder ein Level übersprungen (<code>skip.e1</code>, <code>skip.l1</code> …) oder die Lösung
+    vorgespielt wurde (<code>shown.e1</code>, <code>shown.l1</code> …) und welche Lektion und welches Level zuletzt
+    gespielt wurden (<code>last</code>, <code>last.l</code>). Nur für die Dauer der Sitzung (sessionStorage) merkt es
+    sich, wann es zuletzt für eine neue Version neu geladen hat (<code>kistenschieber.updated</code>), damit es nicht
+    immer wieder neu lädt. Cookies setzt das Spiel nicht.
   </p>
   <p>
     Wie bei Weltenbummler legt dein Browser beim Öffnen des Spiels eine Kopie seiner Dateien auf deinem Gerät ab

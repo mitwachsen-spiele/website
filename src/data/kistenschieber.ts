@@ -41,13 +41,15 @@ export const HELP = {
   ],
 };
 
-/** Abschnitt „Was schon geht“: Stand wie im Spiel (Einführung spielbar, Level kommen bald) */
+/** Abschnitt „Was schon geht“: Stand wie im Spiel (Einführung spielbar, Level 1 bis 6 als Adventskalender) */
 export const PROGRESS = {
   title: 'Was schon geht',
-  intro: 'Kistenschieber ist noch jung. Spielbar ist die Einführung, die Level folgen.',
+  intro:
+    'Kistenschieber ist noch jung. Spielbar ist die Einführung, dazu die ersten sechs Level als Adventskalender: vom 1. bis 6. Dezember geht jeden Tag eins auf.',
   list: [
     { name: 'Einführung', text: '15 Lektionen, von einer Kiste bis zu kleinen Rätseln', done: true },
-    { name: 'Kapitel 1: Am Kai', text: 'Level 1 bis 12, 2 bis 3 Kisten', done: false },
+    { name: 'Kapitel 1: Am Kai', text: 'Level 1 bis 6, 2 bis 3 Kisten, ab 1. Dezember täglich eins', done: true },
+    { name: 'Kapitel 1: Am Kai', text: 'Level 7 bis 12, mit Schranke und Schalter', done: false },
     { name: 'Kapitel 2: Im Speicher', text: 'Level 13 bis 24, 3 bis 4 Kisten', done: false },
   ],
   done: 'spielbar',

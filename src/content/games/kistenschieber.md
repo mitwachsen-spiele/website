@@ -19,7 +19,9 @@ device: "Im Browser, am Computer, Tablet oder Handy"
 status:
   - text: "Einführung spielbar"
     done: true
-  - text: "Level bald"
+  - text: "Level 1 bis 6 im Advent"
+    done: true
+  - text: "weitere Level bald"
     done: false
 image: "../../assets/games/kistenschieber-karte.webp"
 imageAlt: "Der Hafenkai von schräg oben: eine Kiste, ein gelbes Zielfeld und Frauke mit roter Mütze"
