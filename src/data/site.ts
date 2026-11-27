@@ -6,15 +6,17 @@ export const SKY_2 = '#8dd0ee';
 
 /** Das Spiel liegt auf eigener Adresse (Repo mitwachsen-spiele/weltenbummler) */
 export const GAME_URL = 'https://weltenbummler.mitwachsen-spiele.de/';
+/** Name des Spiels */
+export const GAME_NAME = 'Weltenbummler';
 export const SITE = {
-  title: 'Mitwachsen',
+  title: 'Mitwachsen-Spiele',
   description:
-    'Mitwachsen: ein ruhiges Spiel für Kinder ab 3 Jahren, gespielt zusammen mit Mama oder Papa. Ohne Werbung, ohne Punkte, kostenlos im Browser.',
+    'Mitwachsen-Spiele: ruhige Spiele für Kinder ab 3 Jahren, gespielt zusammen mit Mama oder Papa. Das erste heißt Weltenbummler. Ohne Werbung, ohne Punkte, kostenlos im Browser.',
   url: 'https://www.mitwachsen-spiele.de',
 };
 
 /** Titel der Startseite, auch für Suchmaschinen: Name, Alter, wo es läuft */
-export const HOME_TITLE = 'Mitwachsen – Kinderspiel ab 3 Jahren im Browser';
+export const HOME_TITLE = 'Mitwachsen-Spiele – Kinderspiele ab 3 Jahren im Browser';
 
 /**
  * Strukturierte Daten der Startseite (schema.org, JSON-LD): die Website und das Spiel. Nur Angaben, die stimmen und
@@ -36,7 +38,7 @@ export function homeLd(description: string) {
       {
         '@type': 'VideoGame',
         '@id': game,
-        name: SITE.title,
+        name: GAME_NAME,
         url: GAME_URL,
         description,
         image: `${SITE.url}/og.png`,

@@ -68,7 +68,7 @@ test.describe('ohne JavaScript', () => {
   test.use({ javaScriptEnabled: false });
   test('Inhalte bleiben lesbar, das Spiel erklärt sich Eltern', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByRole('heading', { level: 1, name: 'Mitwachsen' })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1, name: 'Mitwachsen-Spiele' })).toBeVisible();
     await expect(page.getByRole('heading', { level: 2 }).first()).toBeVisible();
     await expect(page.getByRole('link', { name: 'Spiel starten' }).first()).toHaveAttribute('href', GAME);
   });
