@@ -124,11 +124,13 @@
   color: var(--ink);
   text-decoration: none;
 }
-/* Der Name ist der einzige Link und spannt sich über die ganze Karte */
+/* Der Name ist der einzige Link und spannt sich über die ganze Karte. z-index legt die Fläche über Bild und
+   „Ansehen“ (beide bilden eigene Ebenen: position, transform beim Überfahren), sonst fangen sie den Klick ab */
 .game-name a::after {
   content: '';
   position: absolute;
   inset: 0;
+  z-index: 1;
 }
 .game-name a:focus-visible {
   outline: none;

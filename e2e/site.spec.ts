@@ -40,13 +40,22 @@ test('Startseite: je Spiel eine Karte mit genau einem Link auf seine Detailseite
   await expect(page.locator('.seed a')).toHaveCount(0);
 });
 
-test('Startseite: Klick auf eine Karte führt zur Detailseite', async ({ page }) => {
-  await page.goto('/');
-  // Irgendwo auf die Karte, nicht auf den Namen: der Link spannt sich über die ganze Karte und fängt den Klick dort ab
-  // (force: an der Stelle des Steckbriefs klicken, obwohl der Link darüber liegt)
-  await page.locator('.game-card').nth(1).locator('.steckbrief').click({ force: true });
-  await expect(page).toHaveURL(/\/kistenschieber\/$/);
-});
+// Echter Mausklick an der Stelle: Der Link spannt sich über die ganze Karte, nichts darf ihn verdecken. Vorher die Maus
+// darüber bewegen, denn „Ansehen“ hebt sich beim Überfahren an.
+for (const part of ['.see', '.game-pic', '.steckbrief'])
+  test(`Startseite: Klick auf ${part} einer Karte führt zur Detailseite`, async ({ page }) => {
+    for (const [n, g] of GAMES.entries()) {
+      await page.goto('/');
+      const el = page.locator('.game-card').nth(n).locator(part);
+      await el.scrollIntoViewIfNeeded();
+      const box = await el.boundingBox();
+      if (!box) throw new Error(`${part} ohne Fläche`);
+      const [x, y] = [box.x + box.width / 2, box.y + box.height / 2];
+      await page.mouse.move(x, y);
+      await page.mouse.click(x, y);
+      await expect(page).toHaveURL(new RegExp(`${g.page}$`));
+    }
+  });
 
 test('Startseite: alter Anker #eltern führt zu „Für Eltern“, von dort weiter zu Weltenbummler', async ({ page }) => {
   await page.goto('/');
