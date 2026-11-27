@@ -82,9 +82,9 @@ import PlainPage from '../layouts/PlainPage.astro';
   <p>
     Das Spiel Kistenschieber (kistenschieber.mitwachsen-spiele.de) merkt sich im lokalen Speicher deines Browsers
     (localStorage, Schlüssel beginnen mit <code>kistenschieber.</code>), was zum Weiterspielen nötig ist: die
-    Einstellungen der Ansicht (<code>drehung</code>, <code>neigung</code>) und auf welcher Seite das Steuerkreuz liegt (
-    <code>hand</code>), je Level den besten Lauf mit Zahl der Züge und Schübe (<code>best.e1</code>,{' '}
-    <code>best.e2</code>
+    Einstellungen der Ansicht (<code>drehung</code>, <code>neigung</code>), auf welcher Seite das Steuerkreuz liegt (
+    <code>hand</code>) und ob der Ton an oder aus ist (<code>ton</code>), je Level den besten Lauf mit Zahl der Züge und
+    Schübe (<code>best.e1</code>, <code>best.e2</code>
     …), ob ein Level übersprungen (<code>skip.e1</code> …) oder seine Lösung vorgespielt wurde (<code>shown.e1</code>
     …) und welches Level zuletzt gespielt wurde (<code>last</code>). Nur für die Dauer der Sitzung (sessionStorage)
     merkt es sich, wann es zuletzt für eine neue Version neu geladen hat (<code>kistenschieber.updated</code>), damit es
@@ -97,7 +97,9 @@ import PlainPage from '../layouts/PlainPage.astro';
     fragt der Browser bei GitHub Pages nach (siehe oben), alte räumt er selbst weg. Nur als installierte App bittet das
     Spiel den Browser, diesen Speicher nicht von sich aus zu leeren. Während du auf dem Spielfeld spielst, bittet es den
     Browser außerdem, den Bildschirm nicht auszuschalten (Wake Lock); dabei wird nichts gespeichert oder übertragen,
-    beim Verlassen des Spielfelds darf der Bildschirm wieder ausgehen.
+    beim Verlassen des Spielfelds darf der Bildschirm wieder ausgehen. Die Töne des Spiels erzeugt dein Browser selbst
+    (Web Audio), erst nachdem du getippt oder eine Taste gedrückt hast; dabei wird nichts geladen, gespeichert oder
+    übertragen.
   </p>
   <p>
     Auch hier bleiben Spielstand und Kopie auf deinem Gerät. Sie werden nicht an mich oder andere übertragen, ich kann
