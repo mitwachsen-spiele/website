@@ -1,0 +1,13 @@
+# Erzeugtes und Fremdes
+dist/
+.e2e/
+.astro/
+node_modules/
+package-lock.json
+public/
+# Inhalte und Doku sind Fließtext, keine Code-Formatierung
+src/content/
+docs/
+*.md
+# Pixel-Raster: eine Zeile pro Textur bleibt lesbarer als Prettiers Umbruch
+src/lib/voxel/textures.ts

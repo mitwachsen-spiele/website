@@ -1,0 +1,213 @@
+name: Build und Deploy
+
+# Prüfen: jeder Pull Request (auch von Renovate) und jeder Push auf main – mit allen Guard-Gates, in parallelen Jobs.
+# Veröffentlichen: nur Pushes auf main, in einem eigenen Job über GitHub Pages (Quelle „GitHub Actions“, kein gh-pages-Branch).
+# Lokal dieselben Schritte und Playwright-Projekte, nur nacheinander in einem Container: npm run gates:ci (scripts/ci-local.sh)
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'README.md'
+      - 'CLAUDE.md'
+      - 'docs/**'
+  pull_request:
+  workflow_dispatch:
+
+# Pull Requests: ein neuer Push bricht den alten Lauf ab. Auf main bekommt jeder Push sein eigenes Urteil (eigene Gruppe
+# je Lauf, nie abgebrochen oder verdrängt); dass kein älterer Lauf einen neueren Stand überschreibt, prüft der Deploy-Job.
+concurrency:
+  group: gates-${{ github.event_name == 'pull_request' && github.ref || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+# Actions sind auf Commit-SHAs gepinnt (Tags lassen sich umhängen); Renovate hält die SHAs aktuell.
+# Standard: nur lesen. Install-Skripte frisch aktualisierter Pakete (Renovate) laufen damit ohne Schreib-Token.
+permissions:
+  contents: read
+
+# Fristen je Job: großzügig für die kleine Seite; reißt eine, erst die Ursache suchen.
+jobs:
+  static:
+    name: Format, Lint, Architektur, Typen
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Abhängigkeiten installieren
+        run: npm ci
+
+      - name: Guard-Gate – Formatierung (Prettier)
+        run: npm run format:check
+
+      - name: Guard-Gate – Lint (ESLint)
+        run: npm run lint
+
+      - name: Guard-Gate – Architekturregeln (dependency-cruiser)
+        run: npm run arch
+
+      - name: Guard-Gate – Typen und Inhalte prüfen
+        run: npm run check
+
+  coverage:
+    name: Unit-Tests mit Abdeckung
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Abhängigkeiten installieren
+        run: npm ci
+
+      - name: Guard-Gate – Unit-Tests mit Mindest-Abdeckung
+        run: npm test
+
+  build:
+    name: Build und fertige Seite prüfen
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Abhängigkeiten installieren
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Guard-Gate – Fertige Seite (HTML, Links, Bundles, externe Ressourcen, alte Adressen)
+        run: npm run verify
+
+      # Für die Browser-Tests: dieselbe Seite, kein zweiter Build (e2e/serve.ts liefert dist/)
+      - name: Fertige Seite für die Browser-Tests bereitstellen
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: dist
+          path: dist/
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Fertige Seite für den Deploy-Job bereitstellen
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: dist/
+          retention-days: 1
+
+  # Browser-Tests auf genau diesem Build. Browser werden nicht zwischengespeichert: Chromium lädt etwa so schnell, wie
+  # ein Cache sich zurückholt, und die Systempakete (--with-deps) kommen ohnehin jedes Mal per apt.
+  e2e-site:
+    name: Browser-Tests
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Abhängigkeiten installieren
+        run: npm ci
+
+      - name: Fertige Seite holen
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: dist
+          path: dist/
+
+      - name: Browser installieren
+        run: npx playwright install --with-deps chromium
+
+      - name: Guard-Gate – Browser-Tests (Projekt site)
+        run: npx playwright test --project=site
+
+      - name: Bericht der Browser-Tests hochladen
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: playwright-report
+          path: playwright-report/
+          if-no-files-found: ignore
+          retention-days: 1
+
+  # Ein einziger Pflicht-Check für das Ruleset „protect main“ (und damit für Renovates Automerge): grün nur, wenn alle
+  # Gates grün sind. Läuft immer (auch wenn ein Gate rot ist oder abgebrochen wurde), damit der Check nie fehlt;
+  # übersprungen zählt als rot. Neue Gate-Jobs hier unter needs eintragen.
+  guard-gates:
+    name: Guard-Gates
+    needs: [static, coverage, build, e2e-site]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Alle Gates grün?
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          echo "Ergebnisse: $RESULTS"
+          for r in $RESULTS; do
+            if [ "$r" != "success" ]; then
+              echo "::error title=Guard-Gates::Mindestens ein Gate ist nicht grün ($r)"
+              exit 1
+            fi
+          done
+
+  deploy:
+    name: Deploy auf GitHub Pages
+    needs: [guard-gates]
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Nur dieser Job darf veröffentlichen – ohne Schreibrechte aufs Repo. Er baut nichts und installiert nichts.
+    # contents: read nur für die Frage, ob main inzwischen weiter ist.
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    # Deploys nie abbrechen, nacheinander ausführen
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    steps:
+      # Läufe auf main laufen parallel: Ein älterer, langsamerer Lauf darf den Stand eines neueren nicht überschreiben.
+      # Übersprungen wird nur, wenn ein neuerer Commit mehr als Doku ändert – nur dann hat er einen eigenen Lauf
+      # (paths-ignore oben), der veröffentlicht.
+      - name: Nur den neuesten Stand von main veröffentlichen
+        id: latest
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          head=$(gh api "repos/$REPO/commits/main" --jq .sha)
+          files=$(gh api "repos/$REPO/compare/$GITHUB_SHA...$head" --jq '.files[].filename')
+          newer=$(echo "$files" | grep -Ev '^(README\.md|CLAUDE\.md|docs/.*)?$' || true)
+          if [ "$head" = "$GITHUB_SHA" ] || [ -z "$newer" ]; then
+            echo "newest=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice title=Deploy übersprungen::main ist schon bei $head, dessen Lauf veröffentlicht"
+            echo "newest=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - id: deployment
+        if: steps.latest.outputs.newest == 'true'
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

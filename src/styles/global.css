@@ -1,0 +1,211 @@
+@import './tokens.css';
+
+/* ---------- Basis ---------- */
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--dirt);
+}
+a {
+  color: #1d4f8a;
+}
+a:hover {
+  color: #0f345f;
+}
+a:focus-visible,
+button:focus-visible {
+  outline: 3px dashed var(--ink);
+  outline-offset: 6px;
+}
+/* Auf dem dunklen Footer-Stein wäre Tinte unsichtbar */
+.site-footer a:focus-visible {
+  outline-color: #ffffff;
+}
+.page {
+  container-type: inline-size;
+  container-name: larmic;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+.pxf {
+  font-family: var(--font-pixel);
+}
+/* Lange Wörter in der breiten Pixelschrift („Netzwerkproblemen“) passen auf Handys nicht in eine Zeile: trennen statt überlaufen */
+h1,
+h2,
+h3 {
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+.pxbox {
+  box-shadow:
+    var(--px-4),
+    12px 12px 0 0 rgba(20, 12, 6, 0.4);
+}
+.pxsm {
+  box-shadow: var(--px-3);
+}
+/* Skip-Link: erst bei Tastatur-Fokus sichtbar */
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -80px;
+  z-index: 1000;
+  padding: 12px 18px;
+  background: var(--gold);
+  color: var(--ink);
+  font-family: var(--font-pixel);
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: var(--px-3);
+}
+.skip-link:focus {
+  top: 16px;
+}
+/* Ziel des Skip-Links und des Fokus nach dem Seitenwechsel: kein Rahmen um den ganzen Inhalt */
+main:focus {
+  outline: none;
+}
+.svg-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+} /* Würfel-Symbole für <use> */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Buttons ---------- */
+.pxbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 0 24px;
+  font-family: var(--font-pixel);
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--ink);
+  background: var(--gold);
+  border: 0;
+  cursor: pointer;
+  box-shadow:
+    var(--px-4),
+    inset 0 -6px 0 0 rgba(0, 0, 0, 0.2),
+    inset 0 4px 0 0 rgba(255, 255, 255, 0.45);
+}
+.pxbtn:hover {
+  color: var(--ink);
+  filter: brightness(1.06);
+}
+.pxbtn:active {
+  transform: translateY(3px);
+  box-shadow:
+    var(--px-4),
+    inset 0 4px 0 0 rgba(0, 0, 0, 0.2);
+}
+.pxbtn.small {
+  min-height: 46px;
+  font-size: 1.0625rem;
+  padding: 0 20px;
+}
+
+/* ---------- Himmel, Kopfzeile, Hero ---------- */
+.sky {
+  position: relative;
+  overflow: hidden;
+  padding: 0 24px 16px;
+  background: linear-gradient(var(--sky-1) 0 36%, var(--sky-2) 36% 68%, var(--sky-3) 68% 100%);
+}
+.cloud {
+  position: absolute;
+  height: 28px;
+  background: #ffffff;
+  opacity: 0.92;
+  animation: drift 26s ease-in-out infinite alternate;
+}
+.cloud span {
+  position: absolute;
+  background: #ffffff;
+}
+@keyframes drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(60px);
+  }
+}
+.site-header {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 22px 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--ink);
+  text-decoration: none;
+}
+.logo:hover {
+  color: var(--ink);
+}
+.logo span {
+  font-family: var(--font-pixel);
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+.hero {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px 40px;
+}
+.hero-text {
+  flex: 1 1 360px;
+  max-width: 520px;
+  padding: 16px 0 32px;
+}
+.subtitle {
+  margin: 22px 0 0;
+  font-size: 1.375rem;
+  font-weight: 800;
+}
+.intro {
+  margin: 14px 0 0;
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  margin-top: 32px;
+}
+.grass-edge {
+  height: 48px;
+  background: var(--tex-grass) repeat-x;
+  background-size: 48px 48px;
+  image-rendering: pixelated;
+}
