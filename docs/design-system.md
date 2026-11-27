@@ -45,7 +45,7 @@ Beide Schriften sind über `@fontsource` lokal gebündelt.
 - **Pixel-Rahmen:** vier Box-Schatten in Tinte statt `border` (`--px-4`, `--px-3`). Dadurch fehlen die Eckpixel wie in einem Spiel-Interface. Große Flächen bekommen zusätzlich 12 px versetzten Schatten.
 - **Goldener Button (`.pxbtn`):** innen oben helles, unten dunkles Kantenlicht, sinkt beim Klick 3 px ein. Gold heißt „Spiel starten“ und steht nur auf den Detailseiten; die Startseite hat kein Gold.
 - **Heller Button (`.pxbtn.light`):** Papier statt Gold für Wege innerhalb der Seite, der Rückweg „Alle Spiele“.
-- **Spielkarte (Startseite):** Papier mit Pixel-Rahmen; oben das Bild aus dem Spiel (16:10) mit App-Symbol und Altersmarke, darunter Name, ein Satz, der Steckbrief (Alter, Mit wem, Lesen, Gerät, Stand) und „Ansehen“. Die Zeilen der Karten liegen per `subgrid` auf gleicher Höhe. Der Name ist der einzige Link und spannt sich über die ganze Karte; Fokus ist der gestrichelte Rahmen um die Karte.
+- **Spielkarte (Startseite):** Papier mit Pixel-Rahmen; oben das Hintergrundbild des Spiels (16:9) mit App-Symbol und Altersmarke, darunter Name, ein Satz, der Steckbrief (Alter, Mit wem, Lesen, Gerät, Stand) und „Ansehen“. Die Zeilen der Karten liegen per `subgrid` auf gleicher Höhe. Der Name ist der einzige Link und spannt sich über die ganze Karte; Fokus ist der gestrichelte Rahmen um die Karte.
 - **Marken für den Stand:** „spielbar“ himmelblau mit Pixel-Haken, „kommt bald“ Holz mit gestricheltem Rand. Nie nur Farbe, der Text sagt es.
 - **Hinweis auf weitere Spiele:** flach, gestrichelt, weiße Schrift auf Erde, kein Link.
 - **Sprechblase:** weiß, 3 px Pixel-Rahmen, eckiger Zipfel (im Spiel, wenn die Figur müde wird).
@@ -65,3 +65,10 @@ Die Blöcke der Seiten entstehen beim Build als SVG (`src/lib/voxel/`).
 - **Projektion:** dimetrisch 2:1. Block (i, j, k) liegt bei X = (i − j)·40, Y = (i + j)·20 − k·44,8. Ein Würfel ist ein `<symbol>` mit `viewBox="0 0 80 84.8"` (`blocks.ts`, `cube.ts`).
 - **Texturen:** 8×8 Pixel pro Fläche, definiert als Textraster in `textures.ts`. Schattierung: oben 5 % weiß, links 8 % schwarz, rechts 26 % schwarz. Das Spiel nutzt dieselben Texturen in seiner Ansicht von vorn und in 3D.
 - **Szenen:** `ISLAND` in `blocks.ts` ist die schwebende Insel mit Baum, Pilz und Brett: groß im Kopf der Startseite und im Vorschaubild (`og.png`). `tower(n)` stapelt n Blöcke (Erde, oben Gras) für die Altersstufen auf der Detailseite von Weltenbummler. `sceneSvg` sortiert die Blöcke von hinten nach vorn und berechnet die viewBox.
+
+## Hintergrundbilder
+
+Jedes Spiel hat ein Hintergrundbild in 4K (`src/assets/wallpapers/<spiel>.png`, 3840 × 2160). Es steht auf seiner Karte und im Kopf seiner Detailseite, kleiner gerechnet beim Build. Gemeinsamer Stil: isometrische Voxel-Welt mit Pixeltexturen, weicher Himmel mit Sonne oben links und halbtransparenten Wolken, schwebende Inseln, gezeichnete Pflanzen als Rahmen in den Ecken, viele kleine Details; unten rechts ein Holzschild mit Nägeln, darauf der Name in Pixelify Sans (Gold mit Verlauf und dunkler Kontur) und die Adresse des Spiels. Die Mitte trägt das Wichtigste (Figur, Kisten), damit sie auch klein auf der Karte wirkt.
+
+- `weltenbummler.png`: das Bild von Mitwachsen (`mitwachsen-original.png`) mit neuem Schild.
+- `kistenschieber.png`: Hafenkai „An der Kaje“ mit Frauke, Kisten und Zielfeldern, Farben aus dem Spiel; prozedural gezeichnet.

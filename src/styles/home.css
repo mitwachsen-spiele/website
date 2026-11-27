@@ -85,7 +85,7 @@
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
 }
 .game-pic .icon {

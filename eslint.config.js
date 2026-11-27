@@ -7,7 +7,18 @@ import tseslint from 'typescript-eslint';
 import astro from 'eslint-plugin-astro';
 
 export default defineConfig(
-  { ignores: ['dist/', '.astro/', 'node_modules/', 'test-results/', 'playwright-report/', 'coverage/'] },
+  // docs/wallpapers/: Quellen der Hintergrundbilder, Dokumentation und kein Teil der Seite
+  {
+    ignores: [
+      'dist/',
+      '.astro/',
+      'node_modules/',
+      'test-results/',
+      'playwright-report/',
+      'coverage/',
+      'docs/wallpapers/',
+    ],
+  },
   js.configs.recommended,
   tseslint.configs.recommended,
   astro.configs.recommended,

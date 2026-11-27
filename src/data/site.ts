@@ -22,7 +22,7 @@ export type GameInfo = {
   description: string;
   genre: string[];
   minAge: number;
-  image: string; // Bild aus dem Spiel, absolute Adresse auf dieser Domain
+  image: string; // Hintergrundbild des Spiels, absolute Adresse auf dieser Domain
 };
 
 /** Adresse der Detailseite eines Spiels */
