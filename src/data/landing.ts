@@ -14,19 +14,20 @@ export const PLAY_URL = GAME_URL;
 
 /** Kopf der Seite im Himmel */
 export const HERO = {
-  title: 'Mitwachsen',
-  subtitle: 'Ein ruhiges Kinderspiel ab 3 Jahren, das ihr zusammen spielt. Kostenlos im Browser, ohne Werbung.',
+  title: 'Mitwachsen-Spiele',
+  subtitle:
+    'Ruhige Kinderspiele ab 3 Jahren, die ihr zusammen spielt. Das erste heißt Weltenbummler. Kostenlos im Browser, ohne Werbung.',
   intro:
     'Dein Kind läuft mit seiner Figur über eine Lichtung, findet verlorene Tiere und bringt sie nach Hause zum Bett. Du sitzt daneben, erzählt mit und entscheidest, wann Schluss ist.',
   cta: 'Spiel starten',
   more: 'Mehr für Eltern',
 };
 
-/** Abschnitt „Was ist Mitwachsen?“ */
+/** Abschnitt „Was ist Weltenbummler?“ */
 export const ABOUT = {
-  title: 'Was ist Mitwachsen?',
+  title: 'Was ist Weltenbummler?',
   paragraphs: [
-    'Mitwachsen ist ein Spiel für Kinder ab 3 Jahren, das im Browser läuft, am Computer und auf dem Tablet. Lesen muss dein Kind nicht: Gesteuert wird nur mit den Pfeiltasten oder dem Steuerkreuz, und alles Wichtige zeigt das Bild.',
+    'Weltenbummler ist ein Spiel für Kinder ab 3 Jahren, das im Browser läuft, am Computer und auf dem Tablet. Lesen muss dein Kind nicht: Gesteuert wird nur mit den Pfeiltasten oder dem Steuerkreuz, und alles Wichtige zeigt das Bild.',
     'Auf der Lichtung warten zwölf Tierarten darauf, gefunden zu werden: Hase, Igel, Schaf, Fuchs, Bär und andere. Läuft die Figur zu einem Tier hin, kommt es mit. Beeren und Wasser bringt sie zu den Trögen am Bett, und Klangsteine spielen zu jedem Ort eine kleine Melodie. Es gibt keine Punkte, keinen Zeitdruck und nichts, was man falsch machen kann.',
     'Gebaut hat es ein Vater für seinen Sohn: einfach, langsam und so, dass man gut wieder aufhören kann.',
   ],
@@ -81,7 +82,7 @@ export const STAGES = {
 export const SCREEN_TIME = {
   title: 'Bildschirmzeit mit Maß',
   intro:
-    'Die Leitlinie der deutschen Kinder- und Jugendmedizin rät für 3- bis 6-Jährige zu höchstens 30 Minuten an einzelnen Tagen, mit einem Elternteil dabei. Mitwachsen hilft dabei, ohne etwas abzubrechen.',
+    'Die Leitlinie der deutschen Kinder- und Jugendmedizin rät für 3- bis 6-Jährige zu höchstens 30 Minuten an einzelnen Tagen, mit einem Elternteil dabei. Weltenbummler hilft dabei, ohne etwas abzubrechen.',
   marks: [
     { time: '15 Min.', text: 'Die Figur setzt sich hin und gähnt.' },
     { time: '20 Min.', text: 'Sie gähnt noch einmal.' },

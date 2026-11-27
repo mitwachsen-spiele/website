@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { GAME_URL, HOME_TITLE, SITE, SKY_1, SKY_2, homeLd } from './site';
+import { GAME_NAME, GAME_URL, HOME_TITLE, SITE, SKY_1, SKY_2, homeLd } from './site';
 
 describe('Daten für Suchmaschinen', () => {
   it('Titel der Startseite nennt Name und Alter und passt ins Suchergebnis', () => {
@@ -24,7 +24,7 @@ describe('Daten für Suchmaschinen', () => {
       expect(url.startsWith(SITE.url) || [GAME_URL, 'https://schema.org', 'https://larmic.de/'].includes(url)).toBe(
         true,
       );
-    expect(game).toMatchObject({ url: GAME_URL });
+    expect(game).toMatchObject({ url: GAME_URL, name: GAME_NAME });
   });
 
   it('Farben stimmen mit den Design-Tokens überein', () => {
