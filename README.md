@@ -2,7 +2,7 @@
 
 Die Homepage von https://www.mitwachsen-spiele.de/: ruhige Spiele für Kinder ab 3 Jahren, die man zusammen mit Mama oder Papa spielt. Ohne Werbung, ohne Punkte, kostenlos im Browser. Gebaut mit [Astro](https://astro.build), ausgeliefert als statische Seite über GitHub Pages.
 
-Die Spiele haben eigene Repos und Adressen: [Weltenbummler](https://github.com/mitwachsen-spiele/weltenbummler) läuft unter https://weltenbummler.mitwachsen-spiele.de/. Bis Ende November 2026 lag alles in [larmic/mitwachsen-spiele](https://github.com/larmic/mitwachsen-spiele); der Umzug steht in larmic/mitwachsen-spiele#71.
+Die Startseite ist die Auswahl der Spiele, jedes hat hier eine Detailseite. Die Spiele selbst haben eigene Repos und Adressen: [Weltenbummler](https://github.com/mitwachsen-spiele/weltenbummler) läuft unter https://weltenbummler.mitwachsen-spiele.de/, [Kistenschieber](https://github.com/mitwachsen-spiele/kistenschieber) unter https://kistenschieber.mitwachsen-spiele.de/. Bis Ende November 2026 lag alles in [larmic/mitwachsen-spiele](https://github.com/larmic/mitwachsen-spiele); der Umzug steht in larmic/mitwachsen-spiele#71.
 
 ## Schnellstart
 
