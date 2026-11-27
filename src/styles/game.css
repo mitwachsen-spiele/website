@@ -42,16 +42,16 @@
 /* Dasselbe Motiv wie auf der Karte der Startseite: Spielbild mit App-Symbol */
 .motif {
   position: relative;
-  flex: 0 1 460px;
+  flex: 0 1 560px;
   width: 100%;
-  max-width: 460px;
+  max-width: 560px;
   margin: 8px auto 40px;
 }
 .motif .scene {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   box-shadow:
     var(--px-4),

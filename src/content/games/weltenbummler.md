@@ -19,7 +19,7 @@ device: "Im Browser, am Computer oder Tablet"
 status:
   - text: "spielbar"
     done: true
-image: "../../assets/games/weltenbummler-karte.webp"
-imageAlt: "Die Figur auf der Lichtung, ringsum Kuh, Schildkröte, Ente, Zicklein und Fuchs"
+image: "../../assets/wallpapers/weltenbummler.png"
+imageAlt: "Die Lichtung von Weltenbummler als Würfelwelt: Bett, Tiere, Teiche, Bäume, ein Tor aus Eis und Schnee, schwebende Inseln am Himmel, unten rechts das Schild „Weltenbummler“"
 icon: "../../assets/games/weltenbummler-symbol.png"
 ---

@@ -3,7 +3,7 @@
 // starten“ samt Zieladresse und dasselbe Motiv wie auf der Karte der Startseite (Spielbild und App-Symbol). Darunter
 // die Abschnitte der Seite (Slot), der Schluss mit zweitem „Spiel starten“ und die anderen Spiele. Die Bildwelt kommt
 // aus `theme`: wiese (Himmel, Gras, Erde) oder hafen (Wasser, Kaikante, Klinker). Ohne JavaScript vollständig.
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
@@ -26,6 +26,8 @@ const { game, closing, more } = Astro.props;
 const g = game.data;
 const host = new URL(g.url).host;
 const others = (await loadGames()).filter((o) => o.id !== game.id);
+// Für Suchmaschinen eine handliche Fassung des Hintergrundbilds, nicht das 4K-Original
+const ldImage = await getImage({ src: g.image, width: 1200, format: 'webp' });
 const ld = gameLd({
   slug: game.id,
   name: g.title,
@@ -33,7 +35,7 @@ const ld = gameLd({
   description: g.teaser,
   genre: g.genre,
   minAge: g.minAge,
-  image: new URL(g.image.src, SITE.url).href,
+  image: new URL(ldImage.src, SITE.url).href,
 });
 ---
 
@@ -68,7 +70,7 @@ const ld = gameLd({
           </p>
         </div>
         <div class="motif" aria-hidden="true">
-          <Image class="scene" src={g.image} alt="" widths={[400, 640, 800]} sizes="(max-width: 720px) 100vw, 480px" />
+          <Image class="scene" src={g.image} alt="" widths={[480, 800, 1200]} sizes="(max-width: 720px) 100vw, 560px" />
           <Image class="icon" src={g.icon} alt="" width={96} height={96} />
         </div>
       </div>

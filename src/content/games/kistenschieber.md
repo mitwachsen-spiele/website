@@ -23,7 +23,7 @@ status:
     done: true
   - text: "weitere Level bald"
     done: false
-image: "../../assets/games/kistenschieber-karte.webp"
-imageAlt: "Der Hafenkai von schräg oben: eine Kiste, ein gelbes Zielfeld und Frauke mit roter Mütze"
+image: "../../assets/wallpapers/kistenschieber.png"
+imageAlt: "Der Hafenkai von Kistenschieber: Frauke schiebt Kisten auf gelbe Felder, ringsum Speicherhäuser, Kran, Leuchtturm und Boote, unten rechts das Schild „Kistenschieber“"
 icon: "../../assets/games/kistenschieber-symbol.png"
 ---

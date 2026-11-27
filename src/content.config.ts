@@ -31,7 +31,7 @@ const games = defineCollection({
         device: z.string(),
         // Stand als Marken: done = schon spielbar (Haken), sonst „kommt bald“ (gestrichelt), nie nur Farbe
         status: z.array(z.object({ text: z.string(), done: z.boolean() })).min(1),
-        image: image(), // Bild aus dem Spiel, 16:10, ohne Menütext
+        image: image(), // Hintergrundbild des Spiels (src/assets/wallpapers/, 3840 × 2160, 16:9): Karte und Kopf der Detailseite
         imageAlt: z.string(),
         icon: image(), // App-Symbol, wie auf dem Home-Bildschirm
       })
