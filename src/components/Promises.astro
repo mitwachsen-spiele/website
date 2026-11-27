@@ -1,0 +1,15 @@
+---
+// Versprechen für alle Spiele: Liste mit Pixel-Häkchen.
+import { PROMISES } from '../data/home';
+---
+
+<ul class="promises">
+  {PROMISES.items.map((item) => (
+    <li>
+      <svg width="20" height="20" viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true">
+        <path d="M1 4h1v1h-1z M2 5h1v1h-1z M3 6h1v1h-1z M4 5h1v1h-1z M5 4h1v1h-1z M6 3h1v1h-1z M7 2h1v1h-1z" />
+      </svg>
+      {item}
+    </li>
+  ))}
+</ul>

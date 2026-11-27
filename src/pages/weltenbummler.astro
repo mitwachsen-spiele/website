@@ -1,0 +1,130 @@
+---
+// Detailseite Weltenbummler (bis November 2026 die Startseite): was es ist, zusammen spielen, wächst mit,
+// Bildschirmzeit, Versprechen. Texte in src/data/weltenbummler.ts, Kopf und Eckdaten in
+// src/content/games/weltenbummler.md. „Was ist Weltenbummler?“ trägt den Anker #eltern wie früher die Startseite.
+import { Image } from 'astro:assets';
+import GamePage from '../layouts/GamePage.astro';
+import VoxelIcon from '../components/VoxelIcon.astro';
+import Promises from '../components/Promises.astro';
+import { sceneSvg, tower } from '../lib/voxel/blocks';
+import { CUBE_W } from '../lib/voxel/cube';
+import { loadGame } from '../data/games';
+import { HOME, PROMISES } from '../data/home';
+import { ABOUT, CLOSING, SCREEN_TIME, STAGES, TOGETHER } from '../data/weltenbummler';
+import shot from '../assets/games/weltenbummler.webp';
+
+const game = await loadGame('weltenbummler');
+const g = game.data;
+const facts: [string, string][] = [
+  ['Alter', g.age],
+  ['Gespielt', g.together],
+  ['Steuerung', g.controls],
+  ['Läuft', g.device],
+  ...ABOUT.facts,
+];
+
+// Säulen der Altersstufen: gleiche Blockbreite, jede Stufe einen Block höher
+const TOWER_W = 56;
+const towers = STAGES.list.map((s, n) => {
+  const t = sceneSvg(tower(n + 1));
+  const h = Number(t.viewBox.split(' ')[3]);
+  return { ...s, ...t, height: Math.round((h * TOWER_W) / CUBE_W) };
+});
+const maxTower = Math.max(...towers.map((t) => t.height));
+---
+
+<GamePage game={game} closing={CLOSING} more={HOME.more}>
+  <section id="eltern" class="panel pxbox" aria-labelledby="t-about">
+    <div class="panel-head">
+      <VoxelIcon block="grass" size={56} />
+      <h2 id="t-about">{ABOUT.title}</h2>
+    </div>
+    <div class="about">
+      <div class="prose">
+        {ABOUT.paragraphs.map((p) => (
+          <p>{p}</p>
+        ))}
+      </div>
+      <dl class="facts">
+        {facts.map(([term, value]) => (
+          <div>
+            <dt>{term}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+    <figure class="shot">
+      <Image src={shot} alt={ABOUT.shotAlt} widths={[480, 800, 1100]} sizes="(max-width: 1180px) 100vw, 1100px" />
+      <figcaption>{ABOUT.shotCaption}</figcaption>
+    </figure>
+  </section>
+
+  <section class="panel pxbox" aria-labelledby="t-together">
+    <div class="panel-head">
+      <VoxelIcon block="plank" size={56} />
+      <h2 id="t-together">{TOGETHER.title}</h2>
+    </div>
+    <ol class="steps">
+      {TOGETHER.steps.map((s) => (
+        <li class="step pxsm">
+          <VoxelIcon block={s.block} size={48} />
+          <h3>{s.title}</h3>
+          <p>{s.text}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="panel pxbox" aria-labelledby="t-stages">
+    <div class="panel-head">
+      <VoxelIcon block="leaves" size={56} />
+      <h2 id="t-stages">{STAGES.title}</h2>
+    </div>
+    <p class="lead">{STAGES.intro}</p>
+    <ol class="stages">
+      {towers.map((t) => (
+        <li class:list={['stage', { now: t.status === 'spielbar' }]}>
+          <div class="tower-box" style={`height: ${maxTower}px`}>
+            <svg
+              class="tower"
+              width={TOWER_W}
+              height={t.height}
+              viewBox={t.viewBox}
+              aria-hidden="true"
+              set:html={t.uses}
+            />
+          </div>
+          <h3>{t.age}</h3>
+          <p class="status pxsm">{t.status}</p>
+          <p>{t.text}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="panel pxbox" aria-labelledby="t-time">
+    <div class="panel-head">
+      <VoxelIcon block="log" size={56} />
+      <h2 id="t-time">{SCREEN_TIME.title}</h2>
+    </div>
+    <p class="lead">{SCREEN_TIME.intro}</p>
+    <dl class="marks">
+      {SCREEN_TIME.marks.map((m) => (
+        <div class="pxsm">
+          <dt>{m.time}</dt>
+          <dd>{m.text}</dd>
+        </div>
+      ))}
+    </dl>
+    <p class="lead">{SCREEN_TIME.note}</p>
+  </section>
+
+  <section class="panel pxbox" aria-labelledby="t-promises">
+    <div class="panel-head">
+      <VoxelIcon block="stone" size={56} />
+      <h2 id="t-promises">{PROMISES.title}</h2>
+    </div>
+    <Promises />
+  </section>
+</GamePage>

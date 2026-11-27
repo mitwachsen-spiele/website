@@ -120,6 +120,13 @@ main:focus {
   font-size: 1.0625rem;
   padding: 0 20px;
 }
+/* Heller Knopf aus Papier für Wege innerhalb der Seite (Alle Spiele); Gold bleibt „Spiel starten“ */
+.pxbtn.light {
+  background: var(--paper);
+  box-shadow:
+    var(--px-4),
+    inset 0 -6px 0 0 rgba(0, 0, 0, 0.08);
+}
 
 /* ---------- Himmel, Kopfzeile, Hero ---------- */
 .sky {

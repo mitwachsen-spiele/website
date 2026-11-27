@@ -1,0 +1,109 @@
+---
+// Detailseite eines Spiels (/<spiel>/): Kopf mit Rückweg „Alle Spiele“, Name, Marken, ein Satz, goldenes „Spiel
+// starten“ samt Zieladresse und dasselbe Motiv wie auf der Karte der Startseite (Spielbild und App-Symbol). Darunter
+// die Abschnitte der Seite (Slot), der Schluss mit zweitem „Spiel starten“ und die anderen Spiele. Die Bildwelt kommt
+// aus `theme`: wiese (Himmel, Gras, Erde) oder hafen (Wasser, Kaikante, Klinker). Ohne JavaScript vollständig.
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import Clouds from '../components/Clouds.astro';
+import BackButton from '../components/BackButton.astro';
+import StatusPills from '../components/StatusPills.astro';
+import VoxelIcon from '../components/VoxelIcon.astro';
+import { GAME_PAGE } from '../data/home';
+import { loadGames } from '../data/games';
+import { SITE, gameLd, ldJson } from '../data/site';
+import '../styles/game.css';
+
+interface Props {
+  game: CollectionEntry<'games'>;
+  closing: { title: string; text: string };
+  more?: string; // Text des Links zum ersten Abschnitt (#eltern)
+}
+const { game, closing, more } = Astro.props;
+const g = game.data;
+const host = new URL(g.url).host;
+const others = (await loadGames()).filter((o) => o.id !== game.id);
+const ld = gameLd({
+  slug: game.id,
+  name: g.title,
+  url: g.url,
+  description: g.teaser,
+  genre: g.genre,
+  minAge: g.minAge,
+  image: new URL(g.image.src, SITE.url).href,
+});
+---
+
+<BaseLayout title={g.pageTitle} description={g.teaser}>
+  <script is:inline slot="head" type="application/ld+json" set:html={ldJson(ld)} />
+  <div class:list={['game-page', `th-${g.theme}`]}>
+    <header class="sky game-sky">
+      <Clouds />
+      <SiteHeader />
+      <div class="hero game-hero">
+        <div class="hero-text">
+          <BackButton />
+          <h1 class="hero-title">{g.title}</h1>
+          <p class="tags">
+            <span class="tag pxsm">{g.ageShort}</span>
+            <span class="tag pxsm">{g.with}</span>
+            <StatusPills status={g.status} />
+          </p>
+          <p class="intro">{g.intro}</p>
+          <div class="cta">
+            <a class="pxbtn" href={g.url}>
+              {GAME_PAGE.cta}
+            </a>
+            {more && (
+              <a class="more" href="#eltern">
+                {more}
+              </a>
+            )}
+          </div>
+          <p class="opens">
+            {GAME_PAGE.opens} {host}
+          </p>
+        </div>
+        <div class="motif" aria-hidden="true">
+          <Image class="scene" src={g.image} alt="" widths={[400, 640, 800]} sizes="(max-width: 720px) 100vw, 480px" />
+          <Image class="icon" src={g.icon} alt="" width={96} height={96} />
+        </div>
+      </div>
+    </header>
+    <div class="edge" aria-hidden="true"></div>
+
+    <main id="inhalt" tabindex="-1" class="ground game-ground">
+      <slot />
+
+      <section class="panel pxbox closing th-spiel" aria-labelledby="t-closing">
+        <VoxelIcon block="pilz" size={72} />
+        <div>
+          <h2 id="t-closing">{closing.title}</h2>
+          <p>{closing.text}</p>
+        </div>
+        <a class="pxbtn" href={g.url}>
+          {GAME_PAGE.cta}
+        </a>
+      </section>
+
+      {others.length > 0 && (
+        <section class="also pxsm" aria-labelledby="t-also">
+          <h2 id="t-also">{GAME_PAGE.others}</h2>
+          <ul>
+            {others.map((o) => (
+              <li>
+                <Image src={o.data.icon} alt="" width={48} height={48} />
+                <a href={`/${o.id}/`}>{o.data.title}</a>
+                <span>{o.data.lead}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </main>
+  </div>
+  <SiteFooter />
+</BaseLayout>

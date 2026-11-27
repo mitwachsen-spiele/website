@@ -1,0 +1,50 @@
+---
+// Karte eines Spiels auf der Startseite: Bild aus dem Spiel mit App-Symbol und Altersmarke, Name, ein Satz und der
+// Steckbrief (bei jedem Spiel dieselben Fragen). Genau ein Link: der Name, er spannt sich über die ganze Karte. Bilder
+// sind für Vorleser stumm, der Steckbrief steht als Text da. Kein Gold: gestartet wird erst auf der Detailseite.
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import StatusPills from './StatusPills.astro';
+import { CARD_FACTS, HOME } from '../data/home';
+
+interface Props {
+  game: CollectionEntry<'games'>;
+}
+const { game } = Astro.props;
+const g = game.data;
+const facts: [string, string][] = [
+  [CARD_FACTS.age, g.age],
+  [CARD_FACTS.with, g.with],
+  [CARD_FACTS.reading, g.reading],
+  [CARD_FACTS.device, g.device],
+];
+---
+
+<li class:list={['game-card', `th-${g.theme}`]}>
+  <h3 class="game-name">
+    <a href={`/${game.id}/`}>{g.title}</a>
+  </h3>
+  <div class="game-pic" aria-hidden="true">
+    <Image class="scene" src={g.image} alt="" widths={[400, 640, 800]} sizes="(max-width: 720px) 100vw, 560px" />
+    <Image class="icon" src={g.icon} alt="" width={96} height={96} />
+    <span class="age pxsm">{g.ageShort}</span>
+  </div>
+  <p class="game-lead">{g.lead}</p>
+  <dl class="steckbrief">
+    {facts.map(([term, value]) => (
+      <div>
+        <dt>{term}</dt>
+        <dd>{value}</dd>
+      </div>
+    ))}
+    <div>
+      <dt>{CARD_FACTS.status}</dt>
+      <dd>
+        <StatusPills status={g.status} />
+      </dd>
+    </div>
+  </dl>
+  <span class="see pxsm" aria-hidden="true">
+    {HOME.see}
+  </span>
+</li>
