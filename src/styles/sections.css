@@ -1,0 +1,269 @@
+/* ---------- Inhaltsbereich auf Erde ---------- */
+.ground {
+  position: relative;
+  padding: 72px 24px 104px;
+  background-image: linear-gradient(var(--dirt-shade), var(--dirt-shade)), var(--tex-dirt);
+  background-size:
+    auto,
+    48px 48px;
+  image-rendering: pixelated;
+}
+.panel {
+  position: relative;
+  max-width: 1180px;
+  margin: 0 auto;
+  background: var(--paper);
+  padding: 44px clamp(22px, 4vw, 52px) 52px;
+}
+.reveal {
+  animation: reveal 0.45s steps(5) both;
+}
+/* Handy: weniger Erde neben dem Panel, kleineres Icon und kleinere Überschrift im Panel-Kopf */
+@container larmic (max-width: 560px) {
+  .ground {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .panel-head {
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .panel-head svg {
+    width: 44px;
+    height: auto;
+  }
+  .panel-head h1 {
+    font-size: 1.75rem;
+  }
+}
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.panel-head {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 30px;
+}
+.panel-head svg {
+  flex: 0 0 auto;
+}
+.panel-head h1 {
+  margin: 0;
+  font-family: var(--font-pixel);
+  font-size: clamp(2rem, 4.4vw, 2.75rem);
+  line-height: 1.05;
+  font-weight: 700;
+}
+.panel-head p {
+  margin: 8px 0 0;
+  font-size: 1.125rem;
+  color: var(--muted);
+}
+
+/* ---------- Themenfarbe ---------- */
+.th-spiel {
+  background: var(--sky-3); /* Spiele: kein Material, sondern der Himmel */
+  color: var(--ink);
+}
+
+/* ---------- Footer auf Stein ---------- */
+.site-footer {
+  position: relative;
+  color: #ffffff;
+  background-image: linear-gradient(var(--stone-shade), var(--stone-shade)), var(--tex-stone);
+  background-size:
+    auto,
+    48px 48px;
+  image-rendering: pixelated;
+}
+.site-footer .inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 44px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px 32px;
+}
+.site-footer p {
+  margin: 0;
+}
+.site-footer a {
+  color: #ffffff;
+  font-weight: 700;
+}
+.footer-name {
+  font-size: 1.5rem;
+}
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+.site-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+}
+
+/* ---------- Unterseiten ---------- */
+.subhero {
+  padding-bottom: 28px;
+}
+.subhero h1 {
+  position: relative;
+  max-width: 1180px;
+  margin: 12px auto 0;
+  font-family: var(--font-pixel);
+  font-size: clamp(2.375rem, 5vw, 3.75rem);
+  line-height: 1.05;
+}
+.subhero .lead {
+  position: relative;
+  max-width: 1180px;
+  margin: 14px auto 0;
+  font-size: 1.1875rem;
+  line-height: 1.6;
+}
+.subhero-row {
+  position: relative;
+  max-width: 1180px;
+  margin: 8px auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0 48px;
+}
+.subhero-text {
+  flex: 1 1 420px;
+  min-width: 0;
+  padding-bottom: 8px;
+}
+.subhero .subhero-text h1 {
+  margin: 26px 0 0;
+}
+.subhero .subhero-text .lead {
+  margin: 14px 0 0;
+  max-width: 40em;
+}
+.back {
+  gap: 10px;
+}
+.doc {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.entry {
+  scroll-margin-top: 24px;
+  padding: 34px clamp(22px, 4vw, 44px) 38px;
+}
+.entry + .entry {
+  margin-top: 44px;
+}
+.entry h2 {
+  margin: 0 0 6px;
+  font-family: var(--font-pixel);
+  font-size: 2.125rem;
+  line-height: 1.1;
+}
+.prose {
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+.prose h2,
+.prose h3,
+.prose h4 {
+  font-family: var(--font-pixel);
+  line-height: 1.2;
+  margin: 32px 0 10px;
+}
+.prose img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 20px 0;
+  box-shadow: var(--px-3);
+}
+.prose blockquote {
+  margin: 24px 0;
+  padding: 16px 20px;
+  background: rgba(0, 0, 0, 0.06);
+}
+.prose ul {
+  padding-left: 22px;
+}
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(13em, 100%), 1fr));
+  gap: 12px 24px;
+  max-width: 46em;
+  margin: 0 0 8px;
+  padding: 16px 20px;
+  background: rgba(0, 0, 0, 0.05);
+}
+.facts dt {
+  font-family: var(--font-pixel);
+  font-size: 0.9375rem;
+}
+.facts dd {
+  margin: 2px 0 0;
+  font-size: 1.0625rem;
+  line-height: 1.5;
+}
+/* Leitsatz: Fläche in der Themenfarbe, Pixel-Rahmen */
+.claim {
+  max-width: 46rem; /* so breit wie die Eckdaten darüber */
+  margin: 28px 0 8px;
+  padding: 18px 22px;
+  font-family: var(--font-pixel);
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
+  line-height: 1.4;
+}
+.backlink {
+  display: inline-block;
+  margin-top: 24px;
+  font-family: var(--font-pixel);
+  font-size: 1.0625rem;
+  color: var(--ink);
+}
+.panel .prose {
+  max-width: 46em;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Einfache Seiten (PlainPage) */
+.paper {
+  background: var(--paper);
+}
+.notfound {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px 32px;
+}
+.notfound-fig {
+  width: 120px;
+}
+.notfound p {
+  margin: 0;
+}

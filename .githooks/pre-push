@@ -1,0 +1,57 @@
+#!/bin/sh
+# Guard-Gate vor jedem Push: Berührt einer der gepushten Commits mehr als Doku (README.md, CLAUDE.md, docs/), muss
+# `npm run gates:ci` (scripts/ci-local.sh, CI-nah im Docker-Container) auf genau dem gepushten Stand grün gewesen sein:
+# .ci-local-ok enthält dann den Tree-Hash dieses Stands. Doku-Änderungen brauchen das nicht.
+# Aktiviert wird der Hook durch `npm install` (Skript "prepare"). Im Notfall überspringen: git push --no-verify
+set -e
+
+ZERO=0000000000000000000000000000000000000000
+ROOT=$(git rev-parse --show-toplevel)
+OK=$(cat "$ROOT/.ci-local-ok" 2>/dev/null || true)
+
+# Zählt, sobald ein Pfad mehr als Doku ist: dieselben Ausnahmen wie paths-ignore in .github/workflows/deploy.yml.
+# Ausnahmen statt einer Liste relevanter Pfade, denn auch public/, tsconfig.json und die Configs der Gates ändern
+# deren Ergebnis
+relevant() {
+  while read -r f; do
+    case $f in
+      '' | README.md | CLAUDE.md | docs/*) ;;
+      *) return 0 ;;
+    esac
+  done
+  return 1
+}
+
+# Liest Zeilen "<lokale Ref> <lokaler SHA> <entfernte Ref> <entfernter SHA>" von git
+while read -r local_ref local_sha remote_ref remote_sha; do
+  # Löschen einer Ref: nichts zu prüfen
+  case $local_sha in *[!0]*) ;; *) continue ;; esac
+  remote_sha=$(echo "$remote_sha" | tr -d '[:space:]')
+
+  # Basis: der bisherige Stand der entfernten Ref, sonst wo der Commit von origin/main abzweigt
+  base=
+  if [ "$remote_sha" != "$ZERO" ] && git cat-file -e "$remote_sha^{commit}" 2>/dev/null; then
+    base=$remote_sha
+  elif git rev-parse -q --verify origin/main >/dev/null; then
+    base=$(git merge-base origin/main "$local_sha" 2>/dev/null || true)
+  fi
+
+  if [ -n "$base" ]; then
+    # -m: auch, was Merges hereinbringen
+    files=$(git log -m --name-only --format= "$base..$local_sha")
+  else
+    # Ohne Basis zählt der ganze Stand des Commits
+    files=$(git ls-tree -r --name-only "$local_sha")
+  fi
+  echo "$files" | relevant || continue
+
+  tree=$(git rev-parse "$local_sha^{tree}")
+  if [ "$OK" != "$tree" ]; then
+    echo "pre-push: $remote_ref – gates:ci ist für diesen Stand nicht grün gelaufen (Tree $tree)." >&2
+    echo "pre-push: Bitte auf genau diesem Stand npm run gates:ci ausführen (Docker nötig)." >&2
+    echo "pre-push: Im Notfall überspringen: git push --no-verify" >&2
+    exit 1
+  fi
+done
+
+exit 0

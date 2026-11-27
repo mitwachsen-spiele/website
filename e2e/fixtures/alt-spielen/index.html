@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <title>Altes Spiel</title>
+  </head>
+  <body>
+    <!-- Stand vor dem Umzug, nur für e2e/retire.spec.ts: meldet einen Service Worker an wie das alte Spiel -->
+    <h1>Altes Spiel</h1>
+    <script>
+      navigator.serviceWorker.register('/spielen/sw.js', { scope: '/spielen/', updateViaCache: 'none' });
+    </script>
+  </body>
+</html>

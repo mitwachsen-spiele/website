@@ -1,0 +1,55 @@
+name: Schnell-Deploy ohne Guard-Gates
+
+# Nur von Hand über die GitHub-Oberfläche (Actions → Schnell-Deploy → Run workflow): baut main und veröffentlicht sofort,
+# ohne Guard-Gates und ohne Browser-Tests. Für den Notfall, wenn die Gates klemmen; der normale Weg bleibt deploy.yml.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Abhängigkeiten installieren
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Fertige Seite für den Deploy-Job bereitstellen
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: dist/
+          retention-days: 1
+
+  deploy:
+    name: Deploy auf GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Wie in deploy.yml: Nur dieser Job darf veröffentlichen, er baut nichts und installiert nichts.
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    # Dieselbe Gruppe wie deploy.yml: Deploys laufen nacheinander und werden nie abgebrochen
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
