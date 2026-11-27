@@ -8,13 +8,14 @@ import PlainPage from '../layouts/PlainPage.astro';
 >
   <p>
     Diese Seite ist bewusst sparsam: keine Cookies, kein Tracking, keine Statistik, keine Werbung. Schriften und
-    Grafiken werden mit der Seite selbst ausgeliefert, von anderen Anbietern wird nichts nachgeladen. Nur das Spiel
-    speichert seinen Spielstand im Browser (siehe unten). Personenbezogene Daten fallen nur dort an, wo es sich nicht
+    Grafiken werden mit der Seite selbst ausgeliefert, von anderen Anbietern wird nichts nachgeladen. Nur die Spiele
+    speichern ihren Spielstand im Browser (siehe unten). Personenbezogene Daten fallen nur dort an, wo es sich nicht
     vermeiden lässt – das steht hier.
   </p>
   <p>
     Diese Erklärung gilt für www.mitwachsen-spiele.de und für die Spiele auf eigenen Adressen darunter, heute das
-    Kinderspiel Weltenbummler unter weltenbummler.mitwachsen-spiele.de.
+    Kinderspiel Weltenbummler unter weltenbummler.mitwachsen-spiele.de und das Spiel Kistenschieber unter
+    kistenschieber.mitwachsen-spiele.de.
   </p>
 
   <h2>Verantwortlich</h2>
@@ -75,6 +76,37 @@ import PlainPage from '../layouts/PlainPage.astro';
     Bis November 2026 lag das Spiel unter www.mitwachsen-spiele.de/spielen/. Hast du es dort geöffnet, löscht dein
     Browser die alte Kopie beim nächsten Aufruf von selbst und leitet zur neuen Adresse weiter; ein alter Spielstand von
     dort wird nicht übernommen.
+  </p>
+
+  <h2>Spiel Kistenschieber: Speichern im Browser und ohne Internet</h2>
+  <p>
+    Das Spiel Kistenschieber (kistenschieber.mitwachsen-spiele.de) merkt sich im lokalen Speicher deines Browsers
+    (localStorage, Schlüssel beginnen mit <code>kistenschieber.</code>), was zum Weiterspielen nötig ist: die
+    Einstellungen der Ansicht (<code>drehung</code>, <code>neigung</code>) und auf welcher Seite das Steuerkreuz liegt (
+    <code>hand</code>), je Level den besten Lauf mit Zahl der Züge und Schübe (<code>best.e1</code>,{' '}
+    <code>best.e2</code>
+    …), ob ein Level übersprungen (<code>skip.e1</code> …) oder seine Lösung vorgespielt wurde (<code>shown.e1</code>
+    …) und welches Level zuletzt gespielt wurde (<code>last</code>). Nur für die Dauer der Sitzung (sessionStorage)
+    merkt es sich, wann es zuletzt für eine neue Version neu geladen hat (<code>kistenschieber.updated</code>), damit es
+    nicht immer wieder neu lädt. Cookies setzt das Spiel nicht.
+  </p>
+  <p>
+    Wie bei Weltenbummler legt dein Browser beim Öffnen des Spiels eine Kopie seiner Dateien auf deinem Gerät ab
+    (Service Worker mit Caches, deren Namen mit <code>kistenschieber-</code> beginnen), damit es auch ohne Internet
+    startet. Diese Kopie ist für alle gleich und enthält nichts über dich oder deinen Spielstand; nach neuen Versionen
+    fragt der Browser bei GitHub Pages nach (siehe oben), alte räumt er selbst weg. Nur als installierte App bittet das
+    Spiel den Browser, diesen Speicher nicht von sich aus zu leeren. Während du auf dem Spielfeld spielst, bittet es den
+    Browser außerdem, den Bildschirm nicht auszuschalten (Wake Lock); dabei wird nichts gespeichert oder übertragen,
+    beim Verlassen des Spielfelds darf der Bildschirm wieder ausgehen.
+  </p>
+  <p>
+    Auch hier bleiben Spielstand und Kopie auf deinem Gerät. Sie werden nicht an mich oder andere übertragen, ich kann
+    sie nicht sehen, und sie enthalten nichts, was dich als Person erkennbar macht. Gespeichert wird nur, weil du das
+    Spiel nutzt, es deinen Fortschritt behalten und auch ohne Internet starten soll; ohne den Speicher läuft das Spiel
+    trotzdem, braucht dann aber Internet und vergisst alles beim Neuladen (§ 25 Abs. 2 Nr. 2 TDDDG). Löschen kannst du
+    alles, indem du die Websitedaten von kistenschieber.mitwachsen-spiele.de in deinem Browser löschst. Auf iPhone und
+    iPad hat die App vom Home-Bildschirm einen eigenen Speicher; er verschwindet mit der App, wenn du sie vom
+    Home-Bildschirm löschst.
   </p>
 
   <h2>Kontakt per E-Mail oder Telefon</h2>
