@@ -1,0 +1,11 @@
+---
+// Rückweg zur Spielauswahl: heller Knopf aus Papier. Gold bleibt „Spiel starten“ vorbehalten.
+import { GAME_PAGE } from '../data/home';
+---
+
+<a class="pxbtn small light back" href="/">
+  <svg width="16" height="16" viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true">
+    <path d="M2 3h1v2h-1z M3 2h1v4h-1z M4 1h1v6h-1z" fill="currentColor"></path>
+  </svg>
+  {GAME_PAGE.back}
+</a>

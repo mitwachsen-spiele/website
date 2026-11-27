@@ -1,0 +1,263 @@
+/* Startseite (/): Spielauswahl mit Karten, Hinweis auf weitere Spiele und „Für Eltern“. Basis in global.css und
+   sections.css. */
+
+/* ---------- Kopf ---------- */
+.home-sky {
+  padding-bottom: 8px;
+}
+.home-sky .subtitle {
+  margin-top: 18px;
+}
+.hero-scene {
+  flex: 0 1 400px;
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  margin: 0 auto 8px;
+  animation: float 4s steps(4) infinite alternate;
+}
+@keyframes float {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-12px);
+  }
+}
+
+/* ---------- Spiele ---------- */
+.home {
+  display: grid;
+  gap: 56px;
+}
+.games {
+  max-width: 1180px;
+  width: 100%;
+  margin: 0 auto;
+}
+/* Holzschild als Überschrift */
+.sign {
+  display: inline-block;
+  margin: 0 0 32px 4px;
+  padding: 6px 18px;
+  font-family: var(--font-pixel);
+  font-size: clamp(1.5rem, 3.4vw, 2rem);
+  line-height: 1.2;
+  background: var(--wood-bg);
+  box-shadow:
+    var(--px-4),
+    8px 8px 0 0 rgba(20, 12, 6, 0.4);
+}
+/* Karten: Zeilen (Name, Bild, Satz, Steckbrief, Ansehen) liegen per subgrid auf gleicher Höhe */
+.game-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  gap: 40px 36px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.game-card {
+  position: relative;
+  display: grid;
+  grid-row: span 5;
+  grid-template-rows: subgrid;
+  row-gap: 14px;
+  margin: 4px;
+  background: var(--paper);
+  box-shadow:
+    var(--px-4),
+    12px 12px 0 0 rgba(20, 12, 6, 0.4);
+}
+.game-card > * {
+  margin-inline: 22px;
+}
+.game-pic {
+  grid-row: 1;
+  position: relative;
+  margin: 0 !important;
+  border-bottom: 6px solid var(--accent, #58a73a);
+}
+.game-card.th-hafen {
+  --accent: #3f8fc2;
+}
+.game-pic .scene {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+.game-pic .icon {
+  position: absolute;
+  left: 18px;
+  bottom: -34px;
+  width: 76px;
+  height: 76px;
+  border-radius: 16px;
+  box-shadow:
+    0 0 0 4px var(--paper),
+    0 0 0 7px var(--ink);
+}
+.game-pic .age {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  padding: 3px 10px;
+  font-family: var(--font-pixel);
+  font-size: 1.125rem;
+  font-weight: 700;
+  background: var(--paper);
+}
+.game-name {
+  grid-row: 2;
+  margin: 0;
+  padding-left: 96px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-pixel);
+  font-size: 1.75rem;
+  line-height: 1.1;
+}
+.game-name a {
+  color: var(--ink);
+  text-decoration: none;
+}
+/* Der Name ist der einzige Link und spannt sich über die ganze Karte */
+.game-name a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+.game-name a:focus-visible {
+  outline: none;
+}
+.game-card:has(a:focus-visible) {
+  outline: 3px dashed var(--ink);
+  outline-offset: 10px;
+}
+.game-card:hover .see {
+  filter: brightness(0.97);
+  transform: translateY(-2px);
+}
+.game-lead {
+  grid-row: 3;
+  margin-block: 0;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+.steckbrief {
+  grid-row: 4;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 14px;
+  align-content: start;
+  margin-block: 0;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.045);
+}
+.steckbrief div {
+  display: contents;
+}
+.steckbrief dt {
+  font-weight: 800;
+}
+.steckbrief dd {
+  margin: 0;
+  line-height: 1.45;
+}
+.steckbrief .pill {
+  font-size: 0.875rem;
+}
+.see {
+  grid-row: 5;
+  justify-self: start;
+  align-self: end;
+  margin-bottom: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  font-family: var(--font-pixel);
+  font-size: 1.125rem;
+  font-weight: 700;
+  background: var(--paper);
+}
+.see::after {
+  content: '';
+  width: 8px;
+  height: 12px;
+  background: var(--ink);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+/* Ein einziges Spiel: eine breite Karte statt eines halbleeren Rasters */
+.game-list.single {
+  grid-template-columns: minmax(0, 760px);
+}
+
+/* Hinweis auf weitere Spiele: flach und gestrichelt, kein Link */
+.seed {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 40px 4px 0;
+  padding: 12px 18px;
+  color: #ffffff;
+  font-family: var(--font-pixel);
+  font-size: 1.125rem;
+  outline: 3px dashed rgba(255, 253, 247, 0.75);
+  outline-offset: -3px;
+}
+.seed svg {
+  flex: 0 0 auto;
+}
+
+/* Für Eltern */
+.parents {
+  width: 100%;
+  box-sizing: border-box;
+}
+.parents .panel-head {
+  margin-bottom: 22px;
+}
+.parents-more {
+  margin: 24px 0 0;
+  font-size: 1.0625rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game-card:hover .see {
+    transform: none;
+  }
+}
+@container larmic (max-width: 560px) {
+  .home {
+    gap: 40px;
+  }
+  .home-sky {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .hero-scene {
+    max-width: 220px;
+  }
+  .game-card > * {
+    margin-inline: 16px;
+  }
+  .game-name {
+    font-size: 1.5rem;
+    padding-left: 84px;
+  }
+  .game-pic .icon {
+    width: 64px;
+    height: 64px;
+    left: 12px;
+    bottom: -28px;
+    border-radius: 14px;
+  }
+  .see {
+    justify-self: stretch;
+    justify-content: center;
+  }
+}

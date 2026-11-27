@@ -1,27 +1,11 @@
-// Texte der Startseite (/), alle an einer Stelle.
+// Texte der Detailseite /weltenbummler/ (bis November 2026 die Startseite), alle an einer Stelle.
 //
 // Die Texte richten sich an Eltern und nennen, wonach sie suchen (Spiel für Kinder ab 3, im Browser, kostenlos, ohne
-// Werbung). Was sie über das Spiel sagen, muss zum Spiel passen (docs/games/mitwachsen.md); Zeiten und Empfehlungen
-// wie im Hinweis für Eltern (src/components/MitwachsenParentInfo.astro). Die Eckdaten (Alter, Steuerung, …) kommen aus
-// src/content/games/mitwachsen.md.
+// Werbung). Was sie über das Spiel sagen, muss zum Spiel passen (Repo mitwachsen-spiele/weltenbummler); Zeiten und
+// Empfehlungen wie im Hinweis für Eltern im Spiel. Kopf, Adresse und Eckdaten (Alter, Steuerung, …) kommen aus
+// src/content/games/weltenbummler.md.
 //
 // Blöcke (`block`) sind die Würfel-Symbole aus src/lib/voxel/blocks.ts: grass, dirt, stone, log, leaves, plank, pilz.
-
-import { GAME_URL } from './site';
-
-/** Adresse des Spiels: Ziel aller „Spiel starten“-Buttons */
-export const PLAY_URL = GAME_URL;
-
-/** Kopf der Seite im Himmel */
-export const HERO = {
-  title: 'Mitwachsen-Spiele',
-  subtitle:
-    'Ruhige Kinderspiele ab 3 Jahren, die ihr zusammen spielt. Das erste heißt Weltenbummler. Kostenlos im Browser, ohne Werbung.',
-  intro:
-    'Dein Kind läuft mit seiner Figur über eine Lichtung, findet verlorene Tiere und bringt sie nach Hause zum Bett. Du sitzt daneben, erzählt mit und entscheidest, wann Schluss ist.',
-  cta: 'Spiel starten',
-  more: 'Mehr für Eltern',
-};
 
 /** Abschnitt „Was ist Weltenbummler?“ */
 export const ABOUT = {
@@ -31,12 +15,12 @@ export const ABOUT = {
     'Auf der Lichtung warten zwölf Tierarten darauf, gefunden zu werden: Hase, Igel, Schaf, Fuchs, Bär und andere. Läuft die Figur zu einem Tier hin, kommt es mit. Beeren und Wasser bringt sie zu den Trögen am Bett, und Klangsteine spielen zu jedem Ort eine kleine Melodie. Es gibt keine Punkte, keinen Zeitdruck und nichts, was man falsch machen kann.',
     'Gebaut hat es ein Vater für seinen Sohn: einfach, langsam und so, dass man gut wieder aufhören kann.',
   ],
-  // Bildunterschrift zum Bild der Lichtung (src/assets/games/mitwachsen.webp)
+  // Bildunterschrift zum Bild der Lichtung (src/assets/games/weltenbummler.webp)
   shotAlt:
     'Die Lichtung im Spiel: in der Mitte die Figur, dahinter Klangstein und Bett, rundherum Kuh, Igel, Biene, Schildkröte, Ente, Zicklein, Fuchs, Frosch und Hase auf der Wiese, links ein Futtertrog, rechts ein Wassertrog, unten links eine leuchtende Portal-Plattform mit Fliegenpilz-Bild, oben links eine graue, noch schlafende Plattform',
   shotCaption:
     'Die Lichtung mit dem Bett: Hier wohnen die Tiere, die dein Kind schon nach Hause gebracht hat. Ringsum bringen Portal-Plattformen die Figur zu den großen Toren.',
-  // Eckdaten zusätzlich zu denen aus src/content/games/mitwachsen.md
+  // Eckdaten zusätzlich zu denen aus src/content/games/weltenbummler.md
   facts: [
     ['Kosten', 'kostenlos, ohne Werbung'],
     ['Spielstand', 'bleibt im eigenen Browser'],
@@ -89,19 +73,6 @@ export const SCREEN_TIME = {
     { time: '25 Min.', text: 'Sie möchte ins Bett.' },
   ],
   note: 'Wann Schluss ist, entscheidest du. Beim ersten Start zeigt das Spiel einen kurzen Hinweis für Eltern mit den Empfehlungen und Quellen.',
-};
-
-/** Abschnitt „Versprochen“: Liste mit Häkchen */
-export const PROMISES = {
-  title: 'Darauf könnt ihr euch verlassen',
-  items: [
-    'Keine Werbung und nichts zu kaufen',
-    'Keine Anmeldung und kein Konto',
-    'Kein Tracking und keine Cookies',
-    'Keine Punkte, keine Tagesbelohnung, kein Zeitdruck',
-    'Der Spielstand bleibt im eigenen Browser',
-    'Kostenlos',
-  ],
 };
 
 /** Schluss mit zweitem „Spiel starten“ */

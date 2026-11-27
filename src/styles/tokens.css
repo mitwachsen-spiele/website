@@ -15,9 +15,20 @@
   --dirt-shade: rgba(43, 26, 15, 0.4);
   --stone-shade: rgba(20, 22, 28, 0.62);
 
-  /* Holz: Welten im Spielmenü */
+  /* Holz: Schild „Sucht euch ein Spiel aus“, Marke „kommt bald“ */
   --wood-bg: #f3ead6;
   --wood-frame: #b3a385;
+  --wood-dark: #6b5d43; /* gestrichelter Rand „kommt bald“ auf Holz */
+  --ok: #2b7a42; /* Haken „spielbar“ */
+
+  /* Thema Hafen (Detailseite Kistenschieber): Farben, die das Spiel schon hat */
+  --water-1: #a6dbf2; /* Wasser, drei harte Stufen wie der Himmel */
+  --water-2: #8dd0ee;
+  --water-3: #64aedb;
+  --granite: #a1a9b2; /* Kaikante statt Gras */
+  --granite-dark: #59606a;
+  --klinker: #a9583c; /* Boden statt Erde */
+  --klinker-joint: #6a3a28;
 
   /* Schriften */
   --font-pixel: 'Pixelify Sans', 'Courier New', monospace;

@@ -1,0 +1,94 @@
+---
+// Detailseite Kistenschieber im Thema Hafen: was es ist, Hilfen beim Knobeln, was schon geht, Versprechen. Texte in
+// src/data/kistenschieber.ts, Kopf und Eckdaten in src/content/games/kistenschieber.md.
+import { Image } from 'astro:assets';
+import GamePage from '../layouts/GamePage.astro';
+import VoxelIcon from '../components/VoxelIcon.astro';
+import Promises from '../components/Promises.astro';
+import { loadGame } from '../data/games';
+import { PROMISES } from '../data/home';
+import { ABOUT, CLOSING, HELP, PROGRESS } from '../data/kistenschieber';
+import shot from '../assets/games/kistenschieber.webp';
+
+const game = await loadGame('kistenschieber');
+const g = game.data;
+const facts: [string, string][] = [
+  ['Alter', g.age],
+  ['Gespielt', g.together],
+  ['Steuerung', g.controls],
+  ['Läuft', g.device],
+  ...ABOUT.facts,
+];
+---
+
+<GamePage game={game} closing={CLOSING}>
+  <section id="eltern" class="panel pxbox" aria-labelledby="t-about">
+    <div class="panel-head">
+      <VoxelIcon block="plank" size={56} />
+      <h2 id="t-about">{ABOUT.title}</h2>
+    </div>
+    <div class="about">
+      <div class="prose">
+        {ABOUT.paragraphs.map((p) => (
+          <p>{p}</p>
+        ))}
+      </div>
+      <dl class="facts">
+        {facts.map(([term, value]) => (
+          <div>
+            <dt>{term}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+    <figure class="shot">
+      <Image src={shot} alt={ABOUT.shotAlt} widths={[480, 800, 1100]} sizes="(max-width: 1180px) 100vw, 1100px" />
+      <figcaption>{ABOUT.shotCaption}</figcaption>
+    </figure>
+  </section>
+
+  <section class="panel pxbox" aria-labelledby="t-help">
+    <div class="panel-head">
+      <VoxelIcon block="leaves" size={56} />
+      <h2 id="t-help">{HELP.title}</h2>
+    </div>
+    <p class="lead">{HELP.intro}</p>
+    <ol class="steps">
+      {HELP.steps.map((s) => (
+        <li class="step pxsm">
+          <VoxelIcon block={s.block} size={48} />
+          <h3>{s.title}</h3>
+          <p>{s.text}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="panel pxbox" aria-labelledby="t-progress">
+    <div class="panel-head">
+      <VoxelIcon block="log" size={56} />
+      <h2 id="t-progress">{PROGRESS.title}</h2>
+    </div>
+    <p class="lead">{PROGRESS.intro}</p>
+    <ul class="progress">
+      {PROGRESS.list.map((p) => (
+        <li>
+          <div>
+            <h3>{p.name}</h3>
+            <p>{p.text}</p>
+          </div>
+          <span class:list={['pill', { soon: !p.done }]}>{p.done ? PROGRESS.done : PROGRESS.soon}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="panel pxbox" aria-labelledby="t-promises">
+    <div class="panel-head">
+      <VoxelIcon block="stone" size={56} />
+      <h2 id="t-promises">{PROMISES.title}</h2>
+    </div>
+    <Promises />
+  </section>
+</GamePage>
